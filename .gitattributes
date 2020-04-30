@@ -1,0 +1,2 @@
+*.sql eol=lf
+*.sql linguist-language=SQL
