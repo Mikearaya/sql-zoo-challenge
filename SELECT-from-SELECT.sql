@@ -56,7 +56,22 @@ SELECT name
 show the continent, the name and the area
 */
 SELECT continent, name, area FROM world x
-  WHERE area >= ALL
+WHERE area >= ALL
     (SELECT area FROM world y
         WHERE y.continent=x.continent
-          AND population>0)
+        AND population>0)
+
+/* List each continent and the name of the country that comes first alphabetically.
+*/
+SELECT continent, name FROM world x
+WHERE LOWER(name) <= ALL (SELECT LOWER(name) FROM world y
+					WHERE x.continent = y.continent
+					)
+
+/*
+Some countries have populations more than three times that of any of their 
+neighbours (in the same continent). Give the countries and continents.
+*/
+SELECT  name, continent FROM world x
+WHERE population > ALL (SELECT 3 * population FROM world y
+					WHERE y.continent = x.continent AND x.name != y.name)
